@@ -1,25 +1,16 @@
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='w-screen h-screen flex flex-col justify-center items-center'>
+      <div className='flex flex-col items-center'>
+        <h2> React boilerplate</h2>
+        <hr className='w-3/4 h-1 mb-4 opacity-80 bg-purple-600 border-none' />
+        <p>Tailwindcss, Material-UI, Axios, GSAP, Lodash and Materialize</p>
+        <div className='w-full h-full flex justify-end mt-4 font-semibold text-sm'>
+          - Mesh20-WEBDEV
+        </div>
+      </div>
     </div>
   );
-}
+};
 
 export default App;

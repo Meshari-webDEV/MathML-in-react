@@ -1,70 +1,79 @@
-# Getting Started with Create React App
+## Rendering MathML in a react app
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). and bundled with other libraries, including [mathjax3-react](https://github.com/asnunes/mathjax3-react) .
 
-## Available Scripts
+## Rendering MathML
 
-In the project directory, you can run:
+Using the package [mathjax3-react](https://github.com/asnunes/mathjax3-react) you can render and process MathML content, raw ASCIIMath or TeX.
 
-### `npm start`
+_Visit the package Github page above for more details._
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+---
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Getting started
 
-### `npm test`
+`npm install` to install the dependencies.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+When the installation has finished, run `npm start` to start the app.
 
-### `npm run build`
+#### How it works (_in this specific example_)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- In the `<App/>` component, MathJax is imported
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+import MathJax from 'mathjax3-react'
 
-### `npm run eject`
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- Iniside the App component, append `<MathJax.Provider></MathJax.Provider>` tags. which takes some configuration as props. without passing any. it falls back to defaults. you can visit [the GitHub page](https://github.com/asnunes/mathjax3-react) to learn more.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Within `<MathJax.Provider>`, append a `<MathJax.Html />` tag
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- Fetch/hardcode an HTML + MathML string to be rendered
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```
+const html = `<p><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>2</mn>...`
+```
 
-## Learn More
+- In `<MathJax.Html />`. Pass an `html` prop containing the HTML + MathML string to be render
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```
+<MathJax.Html html={html} />
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- `<App/>` component should look like this:
 
-### Code Splitting
+```
+import  MathJax  from  'mathjax3-react';
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+const html = `<p><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>2</mn>...`;
 
-### Analyzing the Bundle Size
+const  App = () => {
+	return (
+		<div  className='App'>
+			<MathJax.Provider>
+				<MathJax.Html  html={html}  />
+			</MathJax.Provider>
+		</div>
+	);
+};
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+export  default  App;
+```
 
-### Making a Progressive Web App
+##### _Important note_
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+> When processing the MathML tag `<mspace linebreak="newline" />` > **into -->** `<mjx-mspace></mjx-mspace> ` for creating a linebreak in react, it doesn't render properly. It doesn't add a linebreak, so instead we need to fix it using CSS:
+>
+> ```
+> mjx-mspace {
+> display: block  !important;
+> }
+> ```
 
-### Advanced Configuration
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+#### Final result:
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+![final result](https://i.ibb.co/K08nLNG/localhost-3000.png)
